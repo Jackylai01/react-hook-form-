@@ -1,9 +1,6 @@
-import * as React from "react";
-import "../App.css";
-import Headers from "./Header";
-import { useForm } from "react-hook-form";
-
-let renderCount = 0;
+import * as React from 'react';
+import { useForm } from 'react-hook-form';
+import '../App.css';
 
 type FormValues = {
   firstName: string;
@@ -11,6 +8,7 @@ type FormValues = {
 };
 
 export default function App() {
+  const [renderCount, setRenderCount] = React.useState(0);
   const {
     register,
     handleSubmit,
@@ -18,30 +16,33 @@ export default function App() {
     formState: { errors },
   } = useForm<FormValues>({
     defaultValues: {
-      firstName: "",
-      lastName: "",
+      firstName: '',
+      lastName: '',
     },
   });
-  renderCount++;
-
-  React.useEffect(() => {
-    console.log(errors);
-  }, [errors, formState]);
 
   const onSubmit = async (data: any) => {
+    setRenderCount((prevCount) => prevCount + 1);
     return data;
   };
 
   return (
     <>
-      <div>
-        <Headers renderCount={renderCount} />
+      <main
+        style={{
+          width: '100vw',
+          height: '100vh',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
         <form onSubmit={handleSubmit(onSubmit)}>
-          <input {...register("firstName")} placeholder="First Name" />
-          <input {...register("lastName")} placeholder="Last Name" />
-          <input type="submit" className="button" />
+          <input {...register('firstName')} placeholder='First Name' />
+          <input {...register('lastName')} placeholder='Last Name' />
+          <input type='submit' className='button' />
         </form>
-      </div>
+      </main>
     </>
   );
 }
